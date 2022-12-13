@@ -1,3 +1,4 @@
+using CustomAnimator;
 using Gameplay.Entities;
 using UnityEngine;
 using Utils;
@@ -8,6 +9,7 @@ namespace Gameplay
     {
         [SerializeField] private SpawnArea[] _spawnAreas;
 
+        [SerializeField] private float _firstSpawnDelay;
         [SerializeField] private float _spawnInterval;
         [SerializeField] private int _spawnCountInTime;
         [SerializeField] private int _maxEnemiesCount;
@@ -16,12 +18,15 @@ namespace Gameplay
 
         [SerializeField] private Bounds _worldBounds;
 
+        [SerializeField] private CustomAnimation _sphereAnimation;
+
         private float _spawnTimer;
 
         private void Start()
         {
-            _spawnTimer = _spawnInterval;
+            _spawnTimer = _firstSpawnDelay;
         }
+
 
         private void Update()
         {
@@ -50,7 +55,6 @@ namespace Gameplay
 
             var unit = Instantiate(_unitPrefab, startPoint, Quaternion.identity);
             unit.Initialize(endPoint, _worldBounds);
-            
         }
         
         private void OnDrawGizmosSelected()

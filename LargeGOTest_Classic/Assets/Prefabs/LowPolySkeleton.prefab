@@ -1460,6 +1460,7 @@ GameObject:
   - component: {fileID: 6782667309670242428}
   - component: {fileID: 4972723599130171459}
   - component: {fileID: -5028360039391631767}
+  - component: {fileID: 3641479071124228769}
   m_Layer: 0
   m_Name: LowPolySkeleton
   m_TagString: Untagged
@@ -1493,7 +1494,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8172442304542317006}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 5ef67247d1c334d41bd49c9719015c6e, type: 3}
   m_Controller: {fileID: 9100000, guid: 25c9c75a465eaa740aa2f9df012c598e, type: 2}
   m_CullingMode: 0
@@ -1518,6 +1519,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
+--- !u!114 &3641479071124228769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8172442304542317006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ffca0297734b3aa537dffb053eab45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8569649574974592577
 GameObject:
   m_ObjectHideFlags: 0
