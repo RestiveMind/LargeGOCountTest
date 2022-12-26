@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Jobs;
 using YamlDotNet.Serialization;
@@ -23,6 +24,7 @@ namespace CustomAnimator
         private NativeArray<float> _animationKeySequence;
         private NativeArrayStream _resultStream;
         private NativeArray<float> _timesArray;
+        private float[] _timesArrayManaged;
         private NativeArray<Vector2Int> _transformCurvesPositions;
 
         private TransformAccessArray _accessArray;
@@ -40,19 +42,26 @@ namespace CustomAnimator
 
         private void Update()
         {
-            for (var i = 0 ; i < _animations.Count; i++)
+            //var times = _animations.Select(t => t.Time).ToArray();
+            //_timesArray.CopyFrom(times);
+            var deltaTime = Time.deltaTime;
+            var count = _animations.Count;
+            for (var i = 0 ; i < count; i++)
             {
-                var customAnimation = _animations[i];
-                if (customAnimation == null)
+                var t = _timesArrayManaged[i];
+                if (t > -1)
                 {
-                    _timesArray[i] = -1;
-                }
-                else
-                {
-                    _timesArray[i] = customAnimation.Time;
+                    t += deltaTime;
+                    while(t > 1)
+                    {
+                        t -= 1;
+                    }
+
+                    _timesArrayManaged[i] = t; // = _animations[i].Time;    
                 }
             }
 
+            _timesArray.CopyFrom(_timesArrayManaged);
             RunEvaluationJob();
         }
 
@@ -138,7 +147,9 @@ namespace CustomAnimator
         private void OnAnimationDestroyed(CustomAnimation customAnimation)
         {
             int index = _animations.IndexOf(customAnimation);
-            _animations[index] = null;
+            _animations[index].IsActive = false;
+            _timesArrayManaged[index] = -1;
+            _timesArray[index] = -1;
 
             var childTransformsCount = customAnimation.AnimatedTransforms.Count();
             var startIndex = index * childTransformsCount;
@@ -166,6 +177,7 @@ namespace CustomAnimator
                 _curvesCountPerObject = GetCurvesCount(_animationsData[animationName]);
                 _resultStream = new NativeArrayStream(new NativeArray<float>(_curvesCountPerObject * ObjectsCurvesCache, Allocator.Persistent));
                 _timesArray = new NativeArray<float>(ObjectsCurvesCache, Allocator.Persistent);
+                _timesArrayManaged = new float[ObjectsCurvesCache];
                 _transformCurvesPositions =
                     new NativeArray<Vector2Int>(childTransformsCount, Allocator.Persistent);
                 
@@ -183,6 +195,8 @@ namespace CustomAnimator
 
             var index = GetFreeIndex();
             _animations[index] = customAnimation;
+            _timesArrayManaged[index] = 0;
+            _timesArray[index] = 0;
 
             var accessArrayIndex = index * childTransformsCount;
             foreach (var animatedTransform in customAnimation.AnimatedTransforms)

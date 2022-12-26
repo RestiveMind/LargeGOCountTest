@@ -767,8 +767,8 @@ MonoBehaviour:
   - {fileID: 181265417}
   - {fileID: 88449844}
   - {fileID: 849075468}
-  _firstSpawnDelay: 1
-  _spawnInterval: 1
+  _firstSpawnDelay: 0.01
+  _spawnInterval: 0.01
   _spawnCountInTime: 10
   _maxEnemiesCount: 1500
   _unitPrefab: {fileID: -5028360039391631767, guid: 6e4019dcbde26c8408f888128d0a9a67, type: 3}

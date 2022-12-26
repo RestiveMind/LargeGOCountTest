@@ -12,7 +12,7 @@ namespace CustomAnimator
         [ReadOnly] public NativeArray<float> Times; //10 objects (for ex)
         [ReadOnly] public int SamplesCount;
         [ReadOnly] public int CurvesCountPerObject;
-        public NativeArray<float> Result;
+        public NativeArray<float> Result; 
 
         public void Execute(int i)
         {

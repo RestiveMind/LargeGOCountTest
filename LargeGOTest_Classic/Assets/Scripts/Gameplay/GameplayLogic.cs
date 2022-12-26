@@ -25,6 +25,7 @@ namespace Gameplay
         private void Start()
         {
             _spawnTimer = _firstSpawnDelay;
+            Physics.autoSimulation = false;
         }
 
 

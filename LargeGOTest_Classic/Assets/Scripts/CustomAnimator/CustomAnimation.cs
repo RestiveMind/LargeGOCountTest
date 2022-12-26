@@ -17,13 +17,15 @@ namespace CustomAnimator
 
         public string AnimationName => "run";
         
-        public float Time => _t;
+        public float Time => IsActive ? _t : -1;
 
         public IEnumerable<AnimatedTransform> AnimatedTransforms => _animatedTransforms.Select(t => t.Value);
 
+        public bool IsActive { get; set; }
 
         private void Awake()
         {
+            IsActive = true;
             AnimationObjectCreated?.Invoke(this);
         }
 
@@ -123,11 +125,11 @@ namespace CustomAnimator
 
         private void Update()
         {
-            _t += UnityEngine.Time.deltaTime;
-            while(_t > 1)
-            {
-                _t -= 1;
-            }
+            // _t += UnityEngine.Time.deltaTime;
+            // while(_t > 1)
+            // {
+            //     _t -= 1;
+            // }
         }
 
         public void EvaluateState(NativeArrayStream stream)
